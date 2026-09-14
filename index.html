@@ -1,225 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wishes from Special Events</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --ink:#382a2a;
-      --muted:#765f60;
-      --cream:#fff8ef;
-      --paper:#fffaf3;
-      --coral:#ef6c67;
-      --rose:#d94f68;
-      --lavender:#8c719b;
-      --shadow:0 24px 70px rgba(70,43,50,.20);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family:"DM Sans",system-ui,sans-serif;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(239,108,103,.18), transparent 30%),
-        radial-gradient(circle at 90% 0%, rgba(140,113,155,.20), transparent 35%),
-        linear-gradient(135deg,#fff8f0,#f5eef5 52%,#fff7ed);
-      min-height:100vh;
-    }
-    nav{
-      position:fixed; top:0; left:0; right:0; z-index:10;
-      display:flex; justify-content:space-between; align-items:center;
-      padding:18px clamp(20px,5vw,72px);
-      background:rgba(255,250,244,.76);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(120,85,90,.12);
-    }
-    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
-    .heart{font-size:27px;color:var(--rose)}
-    .links{display:flex;gap:28px;font-size:14px}
-    .links a{color:var(--ink);text-decoration:none}
-    .links a:hover{color:var(--rose)}
-    .hero{
-      width:min(1240px,92%);
-      margin:0 auto;
-      padding:125px 0 55px;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:48px;
-      align-items:center;
-    }
-    .visual{
-      position:relative;
-      border-radius:34px;
-      overflow:hidden;
-      box-shadow:var(--shadow);
-      background:#eadbd7;
-      min-height:650px;
-    }
-    .visual img{
-      width:100%;height:100%;min-height:650px;object-fit:cover;display:block;
-    }
-    .badge{
-      position:absolute;left:22px;bottom:22px;
-      padding:12px 16px;border-radius:999px;
-      background:rgba(255,250,244,.84);backdrop-filter:blur(12px);
-      font-size:13px;font-weight:600;
-    }
-    .copy{padding:10px 8px}
-    .eyebrow{
-      display:inline-block;padding:7px 12px;border-radius:999px;
-      background:rgba(239,108,103,.12);color:#a44553;font-size:13px;font-weight:700;
-      margin-bottom:18px;
-    }
-    h1{
-      font-family:"Playfair Display",Georgia,serif;
-      font-size:clamp(48px,6vw,82px);
-      line-height:.98;margin:0 0 20px;letter-spacing:-2px;
-    }
-    h1 span{color:var(--rose)}
-    .subtitle{font-size:18px;line-height:1.7;color:var(--muted);max-width:560px;margin-bottom:30px}
-    .card{
-      background:rgba(255,250,243,.93);
-      border:1px solid rgba(124,86,90,.14);
-      border-radius:30px;
-      padding:28px;
-      box-shadow:0 20px 55px rgba(70,43,50,.12);
-    }
-    .card h2{margin:0 0 6px;font-size:24px}
-    .hint{color:var(--muted);font-size:13px;margin:0 0 18px}
-    textarea{
-      width:100%;height:150px;resize:vertical;min-height:120px;
-      border:1.5px solid #e4cfd0;border-radius:18px;
-      padding:16px;font:inherit;color:var(--ink);outline:none;background:#fffdf9;
-    }
-    textarea:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(239,108,103,.10)}
-    .meta{display:flex;justify-content:space-between;margin:7px 3px 16px;color:#8b7475;font-size:12px}
-    .categories{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
-    .category{
-      border:1px solid #e2cfd0;background:#fffaf6;color:#5c4849;
-      border-radius:999px;padding:10px 14px;cursor:pointer;font:inherit;font-size:13px;
-    }
-    .category.active,.category:hover{background:#fff0ed;border-color:#ef9b98;color:#a13e50}
-    .send{
-      width:100%;border:0;border-radius:999px;padding:15px 20px;
-      background:linear-gradient(90deg,#ef6c67,#d94f68);
-      color:white;font:700 15px inherit;cursor:pointer;
-      box-shadow:0 12px 25px rgba(217,79,104,.24);
-      transition:transform .2s,box-shadow .2s;
-    }
-    .send:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(217,79,104,.30)}
-    .note{text-align:center;color:#8a7374;font-size:12px;margin:16px 0 0}
-    .result{
-      display:none;margin-top:14px;padding:14px;border-radius:16px;
-      background:#f6efe8;color:#5f4c4d;font-size:13px;line-height:1.5;
-    }
-    .music{
-      margin-top:18px;display:flex;gap:10px;align-items:center;
-      padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.58);
-      border:1px solid rgba(124,86,90,.10);
-    }
-    .music span{font-size:12px;color:var(--muted);flex:1}
-    audio{width:160px;height:34px}
-    footer{text-align:center;padding:20px 20px 45px;color:#806b6d;font-size:13px}
-    @media(max-width:900px){
-      .links{gap:12px}.hero{grid-template-columns:1fr;padding-top:105px}
-      .visual,.visual img{min-height:480px}.copy{padding:0}
-    }
-    @media(max-width:520px){
-      nav{padding:14px 18px}.brand{font-size:14px}.links a:nth-child(3){display:none}
-      .hero{width:94%;gap:26px} .visual,.visual img{min-height:390px}
-      .card{padding:20px} h1{font-size:48px}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishes from Special Events</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #382a2a;
+  background: linear-gradient(135deg, #fff8ef, #f7edf4);
+}
+
+nav {
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,250,244,.9);
+  border-bottom: 1px solid #eadbda;
+}
+
+.brand {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.heart {
+  color: #d94f68;
+  font-size: 28px;
+}
+
+.links {
+  display: flex;
+  gap: 25px;
+}
+
+.links a {
+  color: #382a2a;
+  text-decoration: none;
+}
+
+.hero {
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.visual {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(70,43,50,.2);
+}
+
+.visual img {
+  width: 100%;
+  display: block;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 8px 13px;
+  border-radius: 20px;
+  background: #fff0ed;
+  color: #a44553;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(48px, 6vw, 80px);
+  line-height: 1;
+  margin: 20px 0;
+}
+
+h1 span {
+  color: #d94f68;
+}
+
+.subtitle {
+  color: #765f60;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.card {
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 28px;
+  background: #fffaf3;
+  box-shadow: 0 20px 55px rgba(70,43,50,.13);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.hint {
+  color: #765f60;
+  font-size: 13px;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  resize: vertical;
+  border: 1px solid #e2cfd0;
+  border-radius: 17px;
+  padding: 15px;
+  font-size: 15px;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: #ef6c67;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  color: #8b7475;
+  font-size: 12px;
+  margin: 8px 3px 16px;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+
+.category {
+  border: 1px solid #e2cfd0;
+  background: #fffaf6;
+  color: #5c4849;
+  border-radius: 30px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.category.active {
+  background: #fff0ed;
+  border-color: #ef9b98;
+  color: #a13e50;
+}
+
+.category.proposal {
+  border-color: #d3b5d2;
+  background: #fcf5fc;
+  color: #704e72;
+}
+
+.category.proposal.active {
+  background: #f8edf7;
+  border-color: #b96c9d;
+  color: #8b3f68;
+  box-shadow: 0 6px 18px rgba(139,63,104,.15);
+}
+
+.send {
+  width: 100%;
+  border: 0;
+  border-radius: 30px;
+  padding: 15px;
+  background: linear-gradient(90deg,#ef6c67,#d94f68);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.send.proposal {
+  background: linear-gradient(90deg,#b65b91,#7f5a9c);
+}
+
+.result {
+  display: none;
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 15px;
+  background: #f6efe8;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.note {
+  text-align: center;
+  color: #8a7374;
+  font-size: 12px;
+}
+
+.music {
+  margin-top: 18px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 15px;
+}
+
+.music span {
+  flex: 1;
+  font-size: 12px;
+  color: #765f60;
+}
+
+audio {
+  width: 160px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #806b6d;
+}
+
+@media(max-width:800px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 50px;
+  }
+
+  .links {
+    display: none;
+  }
+}
+</style>
 </head>
+
 <body>
-  <nav>
-    <div class="brand"><span class="heart">♡</span> Wishes from Special Events</div>
-    <div class="links">
-      <a href="#home">Home</a>
-      <a href="#wish">Share a Wish</a>
-      <a href="#music">Special Moments</a>
-    </div>
-  </nav>
 
-  <main id="home" class="hero">
-    <section class="visual">
-      <img src="bengali-couple.png" alt="A softly illustrated Bengali couple enjoying a romantic evening">
-      <div class="badge">Warm wishes • Beautiful moments • Bengali soul</div>
-    </section>
+<nav>
+  <div class="brand">
+    <span class="heart">♡</span>
+    Wishes from Special Events
+  </div>
 
-    <section class="copy">
-      <div class="eyebrow">A little place for heartfelt messages</div>
-      <h1>Every Wish<br><span>Matters.</span> ♡</h1>
-      <p class="subtitle">
-        Write a birthday wish, anniversary message, festival greeting, or simply
-        something beautiful for someone special.
-      </p>
+  <div class="links">
+    <a href="#home">Home</a>
+    <a href="#wish">Share a Wish</a>
+    <a href="#music">Special Moments</a>
+  </div>
+</nav>
 
-      <div class="card" id="wish">
-        <h2>✎ Write Your Wish</h2>
-        <p class="hint">Your message can be up to 500 characters.</p>
+<main id="home" class="hero">
 
-        <textarea id="wishText" maxlength="500" placeholder="Type your wish here..."></textarea>
-        <div class="meta"><span>Choose a moment</span><span id="count">0/500</span></div>
+<section class="visual">
+  <img src="bengali-couple.png" alt="Bengali couple">
+</section>
 
-        <div class="categories">
-          <button class="category active" data-value="Birthday">🎂 Birthday</button>
-          <button class="category" data-value="Anniversary">♡ Anniversary</button>
-          <button class="category" data-value="Festival">🪔 Festival</button>
-          <button class="category" data-value="General">★ General</button>
-        </div>
+<section>
 
-        <button class="send" id="sendWish">➤ Send Wish</button>
-        <div class="result" id="result"></div>
-        <p class="note">Good wishes make beautiful moments ♡</p>
+  <div class="eyebrow">
+    A little place for heartfelt messages
+  </div>
 
-        <div class="music" id="music">
-          <span>🎵 Add a little music to the moment</span>
-          <audio controls preload="none">
-            <source src="O Sanam Akhil Sachdeva.m4a" type="audio/mp4">
-          </audio>
-        </div>
+  <h1>
+    Every Wish<br>
+    <span>Matters.</span> ♡
+  </h1>
+
+  <p class="subtitle">
+    Write a birthday wish, anniversary message, festival greeting,
+    secret proposal, or simply something beautiful for someone special.
+  </p>
+
+  <div class="card" id="wish">
+
+    <h2 id="cardTitle">✎ Write Your Wish</h2>
+
+    <p class="hint" id="cardHint">
+      Your message can be up to 500 characters.
+    </p>
+
+    <form id="wishForm">
+
+      <textarea
+        id="wishText"
+        name="message"
+        maxlength="500"
+        placeholder="Type your wish here..."
+      ></textarea>
+
+      <input
+        type="hidden"
+        id="categoryField"
+        name="category"
+        value="Birthday"
+      >
+
+      <input
+        type="hidden"
+        id="subjectField"
+        name="_subject"
+        value="Birthday Wish from Wishes from Special Events"
+      >
+
+      <div class="meta">
+        <span>Choose a moment</span>
+        <span id="count">0/500</span>
       </div>
-    </section>
-  </main>
 
-  <footer>Made with warmth for every special event ✦</footer>
+      <div class="categories">
 
-  <script>
-    const textarea = document.getElementById("wishText");
-    const count = document.getElementById("count");
-    const result = document.getElementById("result");
-    const send = document.getElementById("sendWish");
-    let selected = "Birthday";
+        <button type="button"
+          class="category active"
+          data-value="Birthday">
+          🎂 Birthday
+        </button>
 
-    textarea.addEventListener("input", () => {
-      count.textContent = `${textarea.value.length}/500`;
-    });
+        <button type="button"
+          class="category"
+          data-value="Anniversary">
+          ♡ Anniversary
+        </button>
 
-    document.querySelectorAll(".category").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".category").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        selected = btn.dataset.value;
+        <button type="button"
+          class="category"
+          data-value="Festival">
+          🪔 Festival
+        </button>
+
+        <button type="button"
+          class="category proposal"
+          data-value="Hidden Proposal">
+          💍 Hidden Proposal
+        </button>
+
+        <button type="button"
+          class="category"
+          data-value="General">
+          ★ General
+        </button>
+
+      </div>
+
+      <button class="send" id="sendWish" type="submit">
+        ➤ Send Wish
+      </button>
+
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <p class="note" id="note">
+      Good wishes make beautiful moments ♡
+    </p>
+
+    <div class="music" id="music">
+      <span>🎵 Add a little music to the moment</span>
+
+      <audio controls preload="none">
+        <source
+          src="O Sanam Akhil Sachdeva.m4a"
+          type="audio/mp4">
+      </audio>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Made with warmth for every special event ✦
+</footer>
+
+
+<script>
+
+const textarea = document.getElementById("wishText");
+const count = document.getElementById("count");
+const result = document.getElementById("result");
+const form = document.getElementById("wishForm");
+const send = document.getElementById("sendWish");
+
+const categoryField =
+  document.getElementById("categoryField");
+
+const subjectField =
+  document.getElementById("subjectField");
+
+const cardTitle =
+  document.getElementById("cardTitle");
+
+const cardHint =
+  document.getElementById("cardHint");
+
+const note =
+  document.getElementById("note");
+
+let selected = "Birthday";
+
+
+/* Character counter */
+
+textarea.addEventListener("input", function() {
+
+  count.textContent =
+    textarea.value.length + "/500";
+
+});
+
+
+/* Category buttons */
+
+document.querySelectorAll(".category").forEach(function(button) {
+
+  button.addEventListener("click", function() {
+
+    document.querySelectorAll(".category")
+      .forEach(function(b) {
+        b.classList.remove("active");
       });
-    });
 
-    send.addEventListener("click", () => {
-      const wish = textarea.value.trim();
-      if (!wish) {
-        result.style.display = "block";
-        result.textContent = "Please write a wish first 💗";
-        textarea.focus();
-        return;
+    button.classList.add("active");
+
+    selected = button.dataset.value;
+
+    categoryField.value = selected;
+
+    subjectField.value =
+      selected + " from Wishes from Special Events";
+
+
+    /* Hidden Proposal special interface */
+
+    if (selected === "Hidden Proposal") {
+
+      cardTitle.textContent =
+        "💍 A Little Secret...";
+
+      cardHint.textContent =
+        "Write the words your heart has been waiting to say.";
+
+      textarea.placeholder =
+        "Write your proposal here... ❤️";
+
+      note.textContent =
+        "Some feelings are meant to be kept special ♡";
+
+      send.textContent =
+        "💌 Send Secret Proposal";
+
+      send.classList.add("proposal");
+
+    }
+
+    else {
+
+      cardTitle.textContent =
+        "✎ Write Your Wish";
+
+      cardHint.textContent =
+        "Your message can be up to 500 characters.";
+
+      textarea.placeholder =
+        "Type your wish here...";
+
+      note.textContent =
+        "Good wishes make beautiful moments ♡";
+
+      send.textContent =
+        "➤ Send Wish";
+
+      send.classList.remove("proposal");
+
+    }
+
+  });
+
+});
+
+
+/* SEND TO FORMSPREE */
+
+form.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const wish = textarea.value.trim();
+
+  if (!wish) {
+
+    result.style.display = "block";
+
+    result.textContent =
+      selected === "Hidden Proposal"
+      ? "Write your secret proposal first 💗"
+      : "Please write a wish first 💗";
+
+    textarea.focus();
+
+    return;
+  }
+
+
+  send.disabled = true;
+
+  send.textContent =
+    selected === "Hidden Proposal"
+    ? "Sending Secret... 💌"
+    : "Sending...";
+
+
+  try {
+
+    const response = await fetch(
+      "https://formspree.io/f/xdeqppz",
+      {
+        method: "POST",
+        body: new FormData(form),
+        headers: {
+          "Accept": "application/json"
+        }
       }
-      result.style.display = "block";
-      result.innerHTML = `<strong>${selected} wish ready!</strong><br>“${wish.replace(/</g,"&lt;").replace(/>/g,"&gt;")}”<br><br>Your wish is prepared beautifully.`;
-    });
-  </script>
+    );
+
+
+    if (!response.ok) {
+      throw new Error("Submission failed");
+    }
+
+
+    result.style.display = "block";
+
+    result.innerHTML =
+      selected === "Hidden Proposal"
+      ? "<strong>💍 Secret proposal sent!</strong><br>Your message has been sent privately. ❤️"
+      : "<strong>" + selected + " wish sent!</strong><br>Your message has been delivered beautifully. ♡";
+
+
+    textarea.value = "";
+
+    count.textContent = "0/500";
+
+  }
+
+  catch(error) {
+
+    result.style.display = "block";
+
+    result.textContent =
+      "Something went wrong while sending. Please try again.";
+
+  }
+
+
+  finally {
+
+    send.disabled = false;
+
+    send.textContent =
+      selected === "Hidden Proposal"
+      ? "💌 Send Secret Proposal"
+      : "➤ Send Wish";
+
+  }
+
+});
+
+</script>
+
 </body>
 </html>

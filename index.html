@@ -1,1142 +1,734 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wishes from Special Events</title>
+  <title>Wishes from Special Events</title>
 
-<style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #fff5f7, #fffaf0, #f4f8ff);
+      color: #333;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: #382a2a;
-  background: linear-gradient(135deg, #fff8ef, #f7edf4);
-}
+    .container {
+      width: 92%;
+      max-width: 760px;
+      margin: 40px auto;
+    }
 
-/* NAVIGATION */
+    .card {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 24px;
+      padding: 35px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+    }
 
-nav {
-  padding: 18px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,250,244,.9);
-  border-bottom: 1px solid #eadbda;
-}
+    h1 {
+      text-align: center;
+      margin: 0 0 12px;
+      color: #8b4a62;
+      font-size: 32px;
+    }
 
-.brand {
-  font-weight: bold;
-  font-size: 17px;
-}
+    .intro {
+      text-align: center;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
 
-.heart {
-  color: #d94f68;
-  font-size: 28px;
-}
+    .music {
+      background: #fff4f7;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
 
-.links {
-  display: flex;
-  gap: 25px;
-}
+    .music span {
+      display: block;
+      margin-bottom: 10px;
+      color: #75445a;
+      font-weight: 600;
+    }
 
-.links a {
-  color: #382a2a;
-  text-decoration: none;
-}
+    audio {
+      width: 100%;
+      max-width: 500px;
+    }
 
-/* HERO */
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #5f4350;
+    }
 
-.hero {
-  max-width: 1200px;
-  margin: auto;
-  padding: 80px 5%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  align-items: center;
-}
+    .name-input,
+    textarea {
+      width: 100%;
+      border: 1px solid #e1cbd3;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+    }
 
-/* IMAGE */
+    .name-input:focus,
+    textarea:focus {
+      border-color: #b97991;
+      box-shadow: 0 0 0 3px rgba(185, 121, 145, 0.12);
+    }
 
-.visual {
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(70,43,50,.2);
-}
+    .name-input {
+      margin-bottom: 22px;
+    }
 
-.visual img {
-  width: 100%;
-  display: block;
-}
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.5;
+    }
 
-/* TEXT */
+    .counter {
+      text-align: right;
+      font-size: 13px;
+      color: #888;
+      margin-top: 6px;
+    }
 
-.eyebrow {
-  display: inline-block;
-  padding: 8px 13px;
-  border-radius: 20px;
-  background: #fff0ed;
-  color: #a44553;
-  font-size: 13px;
-  font-weight: bold;
-}
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 18px 0 25px;
+    }
 
-h1 {
-  font-family: Georgia, serif;
-  font-size: clamp(48px, 6vw, 80px);
-  line-height: 1;
-  margin: 20px 0;
-}
+    .category-btn {
+      border: 1px solid #e4cbd3;
+      background: #fff;
+      color: #684858;
+      padding: 13px 10px;
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.2s;
+    }
 
-h1 span {
-  color: #d94f68;
-}
+    .category-btn:hover {
+      transform: translateY(-1px);
+      background: #fff4f7;
+    }
 
-.subtitle {
-  color: #765f60;
-  font-size: 17px;
-  line-height: 1.7;
-}
+    .category-btn.active {
+      background: #8b4a62;
+      color: white;
+      border-color: #8b4a62;
+    }
 
-/* CARD */
+    .send-btn {
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      padding: 15px;
+      background: #8b4a62;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.card {
-  margin-top: 30px;
-  padding: 28px;
-  border-radius: 28px;
-  background: #fffaf3;
-  box-shadow: 0 20px 55px rgba(70,43,50,.13);
-}
+    .send-btn:hover {
+      background: #71394e;
+    }
 
-.card h2 {
-  margin-top: 0;
-}
+    .send-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
 
-.hint {
-  color: #765f60;
-  font-size: 13px;
-}
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
 
-/* NAME */
+    .result.success {
+      display: block;
+      background: #eef9f0;
+      color: #28633a;
+      border: 1px solid #c8e8cf;
+    }
 
-.name-input {
-  width: 100%;
-  border: 1px solid #e2cfd0;
-  border-radius: 15px;
-  padding: 14px;
-  font-size: 15px;
-  margin-bottom: 12px;
-  outline: none;
-  background: white;
-}
+    .result.error {
+      display: block;
+      background: #fff0f0;
+      color: #9b3030;
+      border: 1px solid #efcaca;
+    }
 
-.name-input:focus {
-  border-color: #ef6c67;
-}
+    .privacy {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+      font-size: 13px;
+      line-height: 1.5;
+    }
 
-/* TEXTAREA */
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
 
-textarea {
-  width: 100%;
-  height: 150px;
-  resize: vertical;
-  border: 1px solid #e2cfd0;
-  border-radius: 17px;
-  padding: 15px;
-  font-size: 15px;
-  outline: none;
-}
+      .card {
+        padding: 23px;
+        border-radius: 20px;
+      }
 
-textarea:focus {
-  border-color: #ef6c67;
-}
+      h1 {
+        font-size: 27px;
+      }
 
-/* COUNTER */
-
-.meta {
-  display: flex;
-  justify-content: space-between;
-  color: #8b7475;
-  font-size: 12px;
-  margin: 8px 3px 16px;
-}
-
-/* CATEGORY BUTTONS */
-
-.categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 20px;
-}
-
-.category {
-  border: 1px solid #e2cfd0;
-  background: #fffaf6;
-  color: #5c4849;
-  border-radius: 30px;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.category.active {
-  background: #fff0ed;
-  border-color: #ef9b98;
-  color: #a13e50;
-}
-
-/* PROPOSAL */
-
-.category.proposal {
-  border-color: #d3b5d2;
-  background: #fcf5fc;
-  color: #704e72;
-}
-
-.category.proposal.active {
-  background: #f8edf7;
-  border-color: #b96c9d;
-  color: #8b3f68;
-  box-shadow: 0 6px 18px rgba(139,63,104,.15);
-}
-
-/* SEND BUTTON */
-
-.send {
-  width: 100%;
-  border: 0;
-  border-radius: 30px;
-  padding: 15px;
-  background: linear-gradient(90deg,#ef6c67,#d94f68);
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.send.proposal {
-  background: linear-gradient(90deg,#b65b91,#7f5a9c);
-}
-
-/* RESULT */
-
-.result {
-  display: none;
-  margin-top: 15px;
-  padding: 14px;
-  border-radius: 15px;
-  background: #f6efe8;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.note {
-  text-align: center;
-  color: #8a7374;
-  font-size: 12px;
-}
-
-/* MUSIC */
-
-.music {
-  margin-top: 18px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #fff;
-  border-radius: 15px;
-}
-
-.music span {
-  flex: 1;
-  font-size: 12px;
-  color: #765f60;
-}
-
-audio {
-  width: 160px;
-}
-
-/* FOOTER */
-
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #806b6d;
-}
-
-/* MOBILE */
-
-@media(max-width:800px) {
-
-  .hero {
-    grid-template-columns: 1fr;
-    padding-top: 50px;
-  }
-
-  .links {
-    display: none;
-  }
-
-}
-
-</style>
+      .categories {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
+  <div class="container">
 
-<!-- NAVIGATION -->
+    <div class="card">
 
-<nav>
+      <h1>💌 Wishes from Special Events</h1>
 
-  <div class="brand">
+      <p class="intro">
+        Share a heartfelt message for someone's special moment.
+        Choose an occasion below and leave your beautiful wish.
+      </p>
 
-    <span class="heart">♡</span>
 
-    Wishes from Special Events
+      <!-- MUSIC -->
+      <div class="music" id="music">
+        <span>🎵 Add a little music to the moment</span>
 
-  </div>
-
-
-  <div class="links">
-
-    <a href="#home">Home</a>
-
-    <a href="#wish">Share a Wish</a>
-
-    <a href="#music">Special Moments</a>
-
-  </div>
-
-</nav>
-
-
-
-<!-- MAIN -->
-
-<main id="home" class="hero">
-
-
-<!-- IMAGE -->
-
-<section class="visual">
-
-  <img
-    src="bengali-couple.png"
-    alt="Bengali couple"
-  >
-
-</section>
-
-
-
-<!-- CONTENT -->
-
-<section>
-
-
-  <div class="eyebrow">
-
-    A little place for heartfelt messages
-
-  </div>
-
-
-  <h1>
-
-    Every Wish<br>
-
-    <span>Matters.</span> ♡
-
-  </h1>
-
-
-  <p class="subtitle">
-
-    Write a birthday wish, anniversary message,
-    festival greeting, secret proposal,
-    or simply something beautiful for someone special.
-
-  </p>
-
-
-
-  <!-- WISH CARD -->
-
-  <div class="card" id="wish">
-
-
-    <h2 id="cardTitle">
-
-      ✎ Write Your Wish
-
-    </h2>
-
-
-    <p class="hint" id="cardHint">
-
-      Your message can be up to 500 characters.
-
-    </p>
-
-
-
-    <!-- FORM -->
-
-    <form id="wishForm">
-
-
-      <!-- NAME -->
-
-      <input
-
-        class="name-input"
-
-        type="text"
-
-        id="userName"
-
-        name="name"
-
-        maxlength="80"
-
-        placeholder="Your name (optional)"
-
-      >
-
-
-
-      <!-- MESSAGE -->
-
-      <textarea
-
-        id="wishText"
-
-        name="message"
-
-        maxlength="500"
-
-        placeholder="Type your wish here..."
-
-      ></textarea>
-
-
-
-      <!-- CATEGORY -->
-
-      <input
-
-        type="hidden"
-
-        id="categoryField"
-
-        name="category"
-
-        value="Birthday"
-
-      >
-
-
-
-      <!-- EMAIL SUBJECT -->
-
-      <input
-
-        type="hidden"
-
-        id="subjectField"
-
-        name="_subject"
-
-        value="🎂 BIRTHDAY WISH — New Submission"
-
-      >
-
-
-
-      <!-- VISITOR ID -->
-
-      <input
-
-        type="hidden"
-
-        id="visitorField"
-
-        name="visitor_id"
-
-      >
-
-
-
-      <div class="meta">
-
-        <span>Choose a moment</span>
-
-        <span id="count">0/500</span>
-
+        <audio controls preload="metadata">
+          <source src="song.mp3" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
       </div>
 
 
+      <!-- FORM -->
+      <form id="wishForm">
 
-      <!-- CATEGORIES -->
+        <!-- Visitor name -->
+        <label for="userName">Your name (optional)</label>
 
-      <div class="categories">
-
-
-        <button
-
-          type="button"
-
-          class="category active"
-
-          data-value="Birthday"
-
+        <input
+          class="name-input"
+          type="text"
+          id="userName"
+          name="name"
+          maxlength="80"
+          placeholder="Your name (optional)"
         >
 
-          🎂 Birthday
 
-        </button>
+        <!-- Category -->
+        <label>Choose an occasion</label>
+
+        <div class="categories">
+
+          <button
+            type="button"
+            class="category-btn active"
+            data-category="Birthday"
+          >
+            🎂 Birthday
+          </button>
+
+          <button
+            type="button"
+            class="category-btn"
+            data-category="Anniversary"
+          >
+            💕 Anniversary
+          </button>
+
+          <button
+            type="button"
+            class="category-btn"
+            data-category="Festival"
+          >
+            🪔 Festival
+          </button>
+
+          <button
+            type="button"
+            class="category-btn"
+            data-category="Hidden Proposal"
+          >
+            💍 Hidden Proposal
+          </button>
+
+          <button
+            type="button"
+            class="category-btn"
+            data-category="General"
+          >
+            💌 General
+          </button>
+
+        </div>
 
 
-
-        <button
-
-          type="button"
-
-          class="category"
-
-          data-value="Anniversary"
-
+        <!-- Hidden fields -->
+        <input
+          type="hidden"
+          id="categoryField"
+          name="category"
+          value="Birthday"
         >
 
-          ♡ Anniversary
-
-        </button>
-
-
-
-        <button
-
-          type="button"
-
-          class="category"
-
-          data-value="Festival"
-
+        <input
+          type="hidden"
+          id="subjectField"
+          name="_subject"
+          value="🎂 BIRTHDAY WISH — New Submission"
         >
 
-          🪔 Festival
-
-        </button>
-
-
-
-        <button
-
-          type="button"
-
-          class="category proposal"
-
-          data-value="Hidden Proposal"
-
+        <input
+          type="hidden"
+          id="visitorField"
+          name="visitor_id"
         >
 
-          💍 Hidden Proposal
-
-        </button>
-
-
-
-        <button
-
-          type="button"
-
-          class="category"
-
-          data-value="General"
-
+        <input
+          type="hidden"
+          id="submissionField"
+          name="submission_id"
         >
 
-          ★ General
 
+        <!-- Message -->
+        <label for="message">Your wish</label>
+
+        <textarea
+          id="message"
+          name="message"
+          maxlength="500"
+          placeholder="Write your birthday wish here..."
+          required
+        ></textarea>
+
+        <div class="counter">
+          <span id="count">0</span>/500
+        </div>
+
+
+        <!-- Send -->
+        <button
+          class="send-btn"
+          id="send"
+          type="submit"
+        >
+          💌 Send My Wish
         </button>
 
+      </form>
 
+
+      <!-- Result -->
+      <div
+        class="result"
+        id="result"
+      ></div>
+
+
+      <div class="privacy">
+        Your message is sent securely through Formspree.
       </div>
-
-
-
-      <!-- SEND -->
-
-      <button
-
-        class="send"
-
-        id="sendWish"
-
-        type="submit"
-
-      >
-
-        ➤ Send Wish
-
-      </button>
-
-
-    </form>
-
-
-
-    <!-- RESULT -->
-
-    <div
-
-      class="result"
-
-      id="result"
-
-    ></div>
-
-
-
-    <p
-
-      class="note"
-
-      id="note"
-
-    >
-
-      Good wishes make beautiful moments ♡
-
-    </p>
-
-
-
-    <!-- MUSIC -->
-
-    <div
-
-      class="music"
-
-      id="music"
-
-    >
-
-      <span>
-
-        🎵 Add a little music to the moment
-
-      </span>
-
-
-      <audio
-
-        controls
-
-        preload="none"
-
-      >
-
-        <source
-
-          src="song.mp3"
-
-          type="audio/mpeg"
-
-        >
-
-      </audio>
 
     </div>
 
-
   </div>
 
-</section>
 
-</main>
+  <script>
 
+    /* =========================================
+       ELEMENTS
+    ========================================= */
 
+    const form = document.getElementById("wishForm");
+    const textarea = document.getElementById("message");
+    const count = document.getElementById("count");
+    const send = document.getElementById("send");
+    const result = document.getElementById("result");
 
-<footer>
+    const categoryButtons =
+      document.querySelectorAll(".category-btn");
 
-  Made with warmth for every special event ✦
+    const categoryField =
+      document.getElementById("categoryField");
 
-</footer>
+    const subjectField =
+      document.getElementById("subjectField");
 
+    const visitorField =
+      document.getElementById("visitorField");
 
+    const submissionField =
+      document.getElementById("submissionField");
 
-<script>
 
+    /* =========================================
+       CATEGORY SETTINGS
+    ========================================= */
 
-/* ELEMENTS */
+    const categorySettings = {
 
-const textarea =
-  document.getElementById("wishText");
+      "Birthday": {
+        placeholder: "Write your birthday wish here...",
+        button: "🎂 Send Birthday Wish",
+        subject: "🎂 BIRTHDAY WISH — New Submission"
+      },
 
-const count =
-  document.getElementById("count");
+      "Anniversary": {
+        placeholder: "Write your anniversary wish here...",
+        button: "💕 Send Anniversary Wish",
+        subject: "💕 ANNIVERSARY WISH — New Submission"
+      },
 
-const result =
-  document.getElementById("result");
+      "Festival": {
+        placeholder: "Write your festival wish here...",
+        button: "🪔 Send Festival Wish",
+        subject: "🪔 FESTIVAL WISH — New Submission"
+      },
 
-const form =
-  document.getElementById("wishForm");
+      "Hidden Proposal": {
+        placeholder: "Write your special proposal message here...",
+        button: "💍 Send Special Message",
+        subject: "💍 HIDDEN PROPOSAL — New Submission"
+      },
 
-const send =
-  document.getElementById("sendWish");
+      "General": {
+        placeholder: "Write your special message here...",
+        button: "💌 Send My Wish",
+        subject: "💌 GENERAL WISH — New Submission"
+      }
 
-const categoryField =
-  document.getElementById("categoryField");
+    };
 
-const subjectField =
-  document.getElementById("subjectField");
 
-const visitorField =
-  document.getElementById("visitorField");
+    /* =========================================
+       CATEGORY BUTTONS
+    ========================================= */
 
-const cardTitle =
-  document.getElementById("cardTitle");
+    categoryButtons.forEach(function(button) {
 
-const cardHint =
-  document.getElementById("cardHint");
+      button.addEventListener("click", function() {
 
-const note =
-  document.getElementById("note");
-
-
-
-/* CURRENT CATEGORY */
-
-let selected = "Birthday";
-
-
-
-/*
-  CREATE A VISITOR ID
-
-  This creates an ID such as:
-
-  WF-A82K4P7Q
-
-  The ID is stored in the browser.
-*/
-
-function createVisitorID() {
-
-  const characters =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-  let randomPart = "";
-
-  for (let i = 0; i < 8; i++) {
-
-    randomPart +=
-      characters.charAt(
-        Math.floor(
-          Math.random() * characters.length
-        )
-      );
-
-  }
-
-  return "WF-" + randomPart;
-
-}
-
-
-
-/*
-  GET EXISTING VISITOR ID
-  OR CREATE A NEW ONE
-*/
-
-let visitorID =
-  localStorage.getItem("wishesVisitorID");
-
-
-if (!visitorID) {
-
-  visitorID =
-    createVisitorID();
-
-  localStorage.setItem(
-    "wishesVisitorID",
-    visitorID
-  );
-
-}
-
-
-/* PUT ID INTO FORM */
-
-visitorField.value =
-  visitorID;
-
-
-
-/* CHARACTER COUNTER */
-
-textarea.addEventListener(
-  "input",
-  function() {
-
-    count.textContent =
-      textarea.value.length + "/500";
-
-  }
-);
-
-
-
-/* CATEGORY BUTTONS */
-
-document
-  .querySelectorAll(".category")
-  .forEach(function(button) {
-
-
-    button.addEventListener(
-      "click",
-      function() {
-
-
-        document
-          .querySelectorAll(".category")
-          .forEach(function(b) {
-
-            b.classList.remove("active");
-
-          });
-
+        categoryButtons.forEach(function(btn) {
+          btn.classList.remove("active");
+        });
 
         button.classList.add("active");
 
+        const category =
+          button.getAttribute("data-category");
 
-        selected =
-          button.dataset.value;
+        const settings =
+          categorySettings[category];
 
+        categoryField.value = category;
 
-        categoryField.value =
-          selected;
+        subjectField.value = settings.subject;
 
+        textarea.placeholder = settings.placeholder;
 
+        send.textContent = settings.button;
 
-        /* HIDDEN PROPOSAL */
+      });
 
-        if (
-          selected ===
-          "Hidden Proposal"
-        ) {
-
-
-          cardTitle.textContent =
-            "💍 A Little Secret...";
+    });
 
 
-          cardHint.textContent =
-            "Write the words your heart has been waiting to say.";
+    /* =========================================
+       CHARACTER COUNTER
+    ========================================= */
+
+    textarea.addEventListener("input", function() {
+
+      count.textContent = textarea.value.length;
+
+    });
 
 
-          textarea.placeholder =
-            "Write your proposal here... ❤️";
+    /* =========================================
+       CREATE VISITOR ID
+    ========================================= */
 
+    function createVisitorID() {
 
-          note.textContent =
-            "Some feelings are meant to be kept special ♡";
+      const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+      let randomPart = "";
 
-          send.textContent =
-            "💌 Send Secret Proposal";
+      for (let i = 0; i < 8; i++) {
 
-
-          send.classList.add(
-            "proposal"
+        randomPart +=
+          characters.charAt(
+            Math.floor(
+              Math.random() * characters.length
+            )
           );
-
-
-          subjectField.value =
-            "💍 HIDDEN PROPOSAL — New Submission";
-
-        }
-
-
-        /* NORMAL CATEGORIES */
-
-        else {
-
-
-          cardTitle.textContent =
-            "✎ Write Your Wish";
-
-
-          cardHint.textContent =
-            "Your message can be up to 500 characters.";
-
-
-          textarea.placeholder =
-            "Type your wish here...";
-
-
-          note.textContent =
-            "Good wishes make beautiful moments ♡";
-
-
-          send.textContent =
-            "➤ Send Wish";
-
-
-          send.classList.remove(
-            "proposal"
-          );
-
-
-
-          /* SUBJECT */
-
-          if (
-            selected ===
-            "Birthday"
-          ) {
-
-            subjectField.value =
-              "🎂 BIRTHDAY WISH — New Submission";
-
-          }
-
-
-          else if (
-            selected ===
-            "Anniversary"
-          ) {
-
-            subjectField.value =
-              "♡ ANNIVERSARY WISH — New Submission";
-
-          }
-
-
-          else if (
-            selected ===
-            "Festival"
-          ) {
-
-            subjectField.value =
-              "🪔 FESTIVAL WISH — New Submission";
-
-          }
-
-
-          else {
-
-            subjectField.value =
-              "★ GENERAL WISH — New Submission";
-
-          }
-
-        }
 
       }
 
-    );
-
-  });
-
-
-
-/*
-  SEND FORM
-  THROUGH FORMSPREE
-*/
-
-form.addEventListener(
-  "submit",
-  async function(event) {
-
-
-    event.preventDefault();
-
-
-    const wish =
-      textarea.value.trim();
-
-
-    /* EMPTY MESSAGE */
-
-    if (!wish) {
-
-
-      result.style.display =
-        "block";
-
-
-      result.textContent =
-        selected ===
-        "Hidden Proposal"
-
-        ? "Write your secret proposal first 💗"
-
-        : "Please write a wish first 💗";
-
-
-      textarea.focus();
-
-
-      return;
+      return "WF-" + randomPart;
 
     }
 
 
-
-    /* SENDING */
-
-    send.disabled =
-      true;
+    let visitorID =
+      localStorage.getItem("wishesVisitorID");
 
 
-    send.textContent =
-      selected ===
-      "Hidden Proposal"
+    if (!visitorID) {
 
-      ? "Sending Secret... 💌"
+      visitorID = createVisitorID();
 
-      : "Sending...";
+      localStorage.setItem(
+        "wishesVisitorID",
+        visitorID
+      );
+
+    }
 
 
+    visitorField.value = visitorID;
 
-    try {
+
+    /* =========================================
+       CREATE UNIQUE SUBMISSION ID
+    ========================================= */
+
+    function createSubmissionID() {
+
+      const randomBytes =
+        new Uint8Array(6);
+
+      crypto.getRandomValues(randomBytes);
+
+      const randomPart =
+        Array.from(randomBytes)
+          .map(function(byte) {
+
+            return byte
+              .toString(16)
+              .padStart(2, "0");
+
+          })
+          .join("")
+          .toUpperCase();
+
+      const timePart =
+        Date.now()
+          .toString(36)
+          .toUpperCase();
+
+      return "SUB-" +
+        timePart +
+        "-" +
+        randomPart;
+
+    }
 
 
-      const response =
-        await fetch(
+    /* =========================================
+       FORM SUBMISSION
+    ========================================= */
 
-          "https://formspree.io/f/xdeoqppz",
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
-          {
+        event.preventDefault();
 
-            method: "POST",
 
-            body:
-              new FormData(form),
+        const wish =
+          textarea.value.trim();
 
-            headers: {
 
-              "Accept":
-                "application/json"
+        if (!wish) {
+
+          result.className =
+            "result error";
+
+          result.textContent =
+            "Please write a wish before sending.";
+
+          return;
+
+        }
+
+
+        /* Create a new unique ID
+           for THIS submission */
+
+        const submissionID =
+          createSubmissionID();
+
+        submissionField.value =
+          submissionID;
+
+
+        send.disabled = true;
+
+        send.textContent =
+          "Sending your wish...";
+
+
+        result.style.display = "none";
+
+
+        try {
+
+          /* =====================================
+             FORMSPREE
+          ===================================== */
+
+          const response =
+            await fetch(
+              "https://formspree.io/f/xdeoqppz",
+              {
+                method: "POST",
+
+                body: new FormData(form),
+
+                headers: {
+                  "Accept": "application/json"
+                }
+              }
+            );
+
+
+          const data =
+            await response
+              .json()
+              .catch(function() {
+                return {};
+              });
+
+
+          if (!response.ok) {
+
+            console.error(
+              "Formspree error:",
+              data
+            );
+
+            let errorMessage =
+              "Form submission failed.";
+
+            if (
+              data &&
+              Array.isArray(data.errors) &&
+              data.errors.length > 0
+            ) {
+
+              errorMessage =
+                data.errors
+                  .map(function(error) {
+                    return error.message;
+                  })
+                  .join(", ");
 
             }
 
+            throw new Error(errorMessage);
+
           }
 
-        );
+
+          /* =====================================
+             SUCCESS MESSAGE
+          ===================================== */
+
+          result.className =
+            "result success";
+
+          result.innerHTML =
+            "💌 <strong>Your wish was sent successfully!</strong><br><br>" +
+            "Your Submission ID:<br>" +
+            "<strong>" +
+            submissionID +
+            "</strong><br><br>" +
+            "Please keep this ID if you need to refer to your wish later.";
 
 
+          result.style.display = "block";
 
-      if (!response.ok) {
 
-        throw new Error(
-          "Submission failed"
-        );
+          /* Clear message */
+
+          textarea.value = "";
+
+          count.textContent = "0";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          result.className =
+            "result error";
+
+          result.textContent =
+            "Something went wrong while sending your wish.\n\n" +
+            error.message;
+
+          result.style.display = "block";
+
+        } finally {
+
+          send.disabled = false;
+
+
+          const currentCategory =
+            categoryField.value;
+
+          send.textContent =
+            categorySettings[currentCategory].button;
+
+        }
 
       }
+    );
 
-
-
-      /* SUCCESS */
-
-      result.style.display =
-        "block";
-
-
-      if (
-        selected ===
-        "Hidden Proposal"
-      ) {
-
-
-        result.innerHTML =
-          "<strong>💍 Secret proposal sent!</strong><br>" +
-          "Your message has been sent privately. ❤️" +
-          "<br><small>Visitor ID: " +
-          visitorID +
-          "</small>";
-
-      }
-
-
-      else {
-
-
-        result.innerHTML =
-          "<strong>" +
-          selected +
-          " wish sent!</strong><br>" +
-          "Your message has been delivered beautifully. ♡" +
-          "<br><small>Visitor ID: " +
-          visitorID +
-          "</small>";
-
-      }
-
-
-
-      /* CLEAR MESSAGE */
-
-      textarea.value = "";
-
-      count.textContent =
-        "0/500";
-
-
-    }
-
-
-    catch(error) {
-
-
-      result.style.display =
-        "block";
-
-
-      result.textContent =
-        "Something went wrong while sending. Please try again.";
-
-    }
-
-
-
-    finally {
-
-
-      send.disabled =
-        false;
-
-
-      send.textContent =
-        selected ===
-        "Hidden Proposal"
-
-        ? "💌 Send Secret Proposal"
-
-        : "➤ Send Wish";
-
-    }
-
-  }
-
-);
-
-</script>
+  </script>
 
 </body>
 </html>
